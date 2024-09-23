@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine.js Cheat Sheet</title>
+    <script src="https://unpkg.com/alpinejs@3.x.x" defer></script>
+    <style>
+        .hidden { display: none; }
+        .fade-enter { opacity: 0; }
+        .fade-enter-active { transition: opacity 0.5s; }
+        .fade-leave-active { transition: opacity 0.5s; opacity: 0; }
+    </style>
+</head>
+<body class="p-4">
+
+    <h1>Alpine.js Cheat Sheet</h1>
+
+    <!-- Basic Data Binding with x-data and x-text -->
+    <div x-data="{ message: 'Hello Alpine!' }">
+        <p x-text="message"></p>
+        <input x-model="message" placeholder="Type something" class="border p-1"/>
+    </div>
+
+    <hr>
+
+    <!-- Conditional Rendering with x-show and x-if -->
+    <div x-data="{ showContent: true }" class="my-4">
+        <button x-on:click="showContent = !showContent" class="bg-blue-500 text-white px-2 py-1">
+            Toggle Content (x-show)
+        </button>
+        <div x-show="showContent" class="mt-2 border p-2">
+            <p>This content is toggled using <strong>x-show</strong>.</p>
+        </div>
+    </div>
+
+    <div x-data="{ showIf: true }" class="my-4">
+        <button x-on:click="showIf = !showIf" class="bg-green-500 text-white px-2 py-1">
+            Toggle Content (x-if)
+        </button>
+        <template x-if="showIf">
+            <div class="mt-2 border p-2">
+                <p>This content is toggled using <strong>x-if</strong> and rendered conditionally.</p>
+            </div>
+        </template>
+    </div>
+
+    <hr>
+
+    <!-- Loops with x-for -->
+    <div x-data="{ items: ['Item 1', 'Item 2', 'Item 3'] }" class="my-4">
+        <ul>
+            <template x-for="(item, index) in items" :key="index">
+                <li class="border p-2 my-1" x-text="item"></li>
+            </template>
+        </ul>
+    </div>
+
+    <hr>
+
+    <!-- Class Binding and Event Listeners with x-bind and x-on -->
+    <div x-data="{ isActive: false }" class="my-4">
+        <button 
+            x-bind:class="{ 'bg-blue-500 text-white': isActive, 'bg-gray-200': !isActive }" 
+            x-on:click="isActive = !isActive" 
+            class="px-4 py-2">
+            Toggle Active
+        </button>
+    </div>
+
+    <hr>
+
+    <!-- Input Binding with x-model -->
+    <div x-data="{ name: '' }" class="my-4">
+        <input x-model="name" placeholder="Enter your name" class="border p-1">
+        <p x-text="'Hello ' + name"></p>
+    </div>
+
+    <hr>
+
+    <!-- Transitions with x-transition -->
+    <div x-data="{ open: false }" class="my-4">
+        <button x-on:click="open = !open" class="bg-purple-500 text-white px-2 py-1">
+            Toggle Transition
+        </button>
+        <div x-show="open" x-transition:enter="fade-enter" x-transition:enter-active="fade-enter-active" x-transition:leave="fade-leave-active" class="mt-2 border p-2">
+            <p>This block appears/disappears with transitions using <strong>x-transition</strong>.</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- x-ref and DOM interaction -->
+    <div x-data="{ message: 'This is default' }" class="my-4">
+        <input x-ref="inputMessage" placeholder="Type something" class="border p-1">
+        <button x-on:click="$refs.inputMessage.value = message" class="bg-red-500 text-white px-2 py-1">
+            Reset Input
+        </button>
+    </div>
+
+    <hr>
+
+    <!-- Two-way binding with nested objects -->
+    <div x-data="{ user: { name: '', email: '' } }" class="my-4">
+        <input x-model="user.name" placeholder="Name" class="border p-1">
+        <input x-model="user.email" placeholder="Email" class="border p-1 mt-1">
+        <p>Name: <span x-text="user.name"></span></p>
+        <p>Email: <span x-text="user.email"></span></p>
+    </div>
+
+    <hr>
+
+    <!-- x-init for initializing data or actions -->
+    <div x-data="{ message: '' }" x-init="message = 'Initialized via x-init!'">
+        <p x-text="message"></p>
+    </div>
+
+    <hr>
+
+    <!-- x-model modifiers (debounce, number, trim) -->
+    <div x-data="{ number: '', trimmed: '', debounced: '' }" class="my-4">
+        <input x-model.number="number" placeholder="Enter a number" class="border p-1">
+        <p>Number (auto-converted): <span x-text="number"></span></p>
+
+        <input x-model.trim="trimmed" placeholder="Trim whitespace" class="border p-1 mt-1">
+        <p>Trimmed: <span x-text="trimmed"></span></p>
+
+        <input x-model.debounce.500ms="debounced" placeholder="Debounced input (500ms)" class="border p-1 mt-1">
+        <p>Debounced: <span x-text="debounced"></span></p>
+    </div>
+
+</body>
+</html>
