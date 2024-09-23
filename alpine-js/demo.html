@@ -6,127 +6,146 @@
     <title>Alpine.js Cheat Sheet</title>
     <script src="https://unpkg.com/alpinejs@3.x.x" defer></script>
     <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h2 { color: #333; }
+        pre {
+            background-color: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .code-toggle { cursor: pointer; color: #0066cc; text-decoration: underline; }
+        .code-toggle:hover { color: #004499; }
+        .example-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 30px; border-radius: 10px; background-color: #f9f9f9; }
         .hidden { display: none; }
-        .fade-enter { opacity: 0; }
-        .fade-enter-active { transition: opacity 0.5s; }
-        .fade-leave-active { transition: opacity 0.5s; opacity: 0; }
     </style>
 </head>
-<body class="p-4">
+<body>
 
     <h1>Alpine.js Cheat Sheet</h1>
+    <p>Explore key Alpine.js features with explanations and the corresponding code snippets.</p>
 
-    <!-- Basic Data Binding with x-data and x-text -->
-    <div x-data="{ message: 'Hello Alpine!' }">
+    <!-- Example 1: Basic Data Binding -->
+    <div class="example-box" x-data="{ message: 'Hello Alpine!' }">
+        <h2>1. Basic Data Binding (`x-data` and `x-text`)</h2>
+        <p>Alpine.js lets you bind data to the DOM using `x-data` for reactive data and `x-text` to display it.</p>
+        <p><strong>Output:</strong></p>
         <p x-text="message"></p>
-        <input x-model="message" placeholder="Type something" class="border p-1"/>
+        <input x-model="message" placeholder="Type something" class="border p-1">
+        
+        <!-- Toggle code visibility -->
+        <p @click="$refs.code1.classList.toggle('hidden')" class="code-toggle">Show/Hide Code</p>
+        <pre x-ref="code1" class="hidden">
+&lt;div x-data=&quot;{ message: 'Hello Alpine!' }&quot;&gt;
+  &lt;p x-text=&quot;message&quot;&gt;&lt;/p&gt;
+  &lt;input x-model=&quot;message&quot; placeholder=&quot;Type something&quot;&gt;
+&lt;/div&gt;
+        </pre>
     </div>
 
-    <hr>
-
-    <!-- Conditional Rendering with x-show and x-if -->
-    <div x-data="{ showContent: true }" class="my-4">
-        <button x-on:click="showContent = !showContent" class="bg-blue-500 text-white px-2 py-1">
-            Toggle Content (x-show)
-        </button>
-        <div x-show="showContent" class="mt-2 border p-2">
+    <!-- Example 2: Conditional Rendering with x-show -->
+    <div class="example-box" x-data="{ showContent: true }">
+        <h2>2. Conditional Rendering (`x-show`)</h2>
+        <p>Toggle the visibility of elements using `x-show`. It keeps the element in the DOM but hides it.</p>
+        <button x-on:click="showContent = !showContent" class="bg-blue-500 text-white px-2 py-1">Toggle Content</button>
+        <div x-show="showContent" class="mt-2">
             <p>This content is toggled using <strong>x-show</strong>.</p>
         </div>
+
+        <!-- Toggle code visibility -->
+        <p @click="$refs.code2.classList.toggle('hidden')" class="code-toggle">Show/Hide Code</p>
+        <pre x-ref="code2" class="hidden">
+&lt;div x-data=&quot;{ showContent: true }&quot;&gt;
+  &lt;button x-on:click=&quot;showContent = !showContent&quot;&gt;Toggle Content&lt;/button&gt;
+  &lt;div x-show=&quot;showContent&quot;&gt;
+    &lt;p&gt;This content is toggled using &lt;strong&gt;x-show&lt;/strong&gt;.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+        </pre>
     </div>
 
-    <div x-data="{ showIf: true }" class="my-4">
-        <button x-on:click="showIf = !showIf" class="bg-green-500 text-white px-2 py-1">
-            Toggle Content (x-if)
-        </button>
+    <!-- Example 3: Conditional Rendering with x-if -->
+    <div class="example-box" x-data="{ showIf: true }">
+        <h2>3. Conditional Rendering (`x-if`)</h2>
+        <p>Use `x-if` to conditionally render or remove elements from the DOM completely.</p>
+        <button x-on:click="showIf = !showIf" class="bg-green-500 text-white px-2 py-1">Toggle Content</button>
         <template x-if="showIf">
-            <div class="mt-2 border p-2">
-                <p>This content is toggled using <strong>x-if</strong> and rendered conditionally.</p>
+            <div class="mt-2">
+                <p>This content is rendered conditionally using <strong>x-if</strong>.</p>
             </div>
         </template>
+
+        <!-- Toggle code visibility -->
+        <p @click="$refs.code3.classList.toggle('hidden')" class="code-toggle">Show/Hide Code</p>
+        <pre x-ref="code3" class="hidden">
+&lt;div x-data=&quot;{ showIf: true }&quot;&gt;
+  &lt;button x-on:click=&quot;showIf = !showIf&quot;&gt;Toggle Content&lt;/button&gt;
+  &lt;template x-if=&quot;showIf&quot;&gt;
+    &lt;div&gt;
+      &lt;p&gt;This content is rendered conditionally using &lt;strong&gt;x-if&lt;/strong&gt;.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+&lt;/div&gt;
+        </pre>
     </div>
 
-    <hr>
-
-    <!-- Loops with x-for -->
-    <div x-data="{ items: ['Item 1', 'Item 2', 'Item 3'] }" class="my-4">
+    <!-- Example 4: Looping with x-for -->
+    <div class="example-box" x-data="{ items: ['Item 1', 'Item 2', 'Item 3'] }">
+        <h2>4. Looping with `x-for`</h2>
+        <p>Loop through an array of items with `x-for` and dynamically render elements.</p>
         <ul>
             <template x-for="(item, index) in items" :key="index">
-                <li class="border p-2 my-1" x-text="item"></li>
+                <li x-text="item" class="my-1"></li>
             </template>
         </ul>
+
+        <!-- Toggle code visibility -->
+        <p @click="$refs.code4.classList.toggle('hidden')" class="code-toggle">Show/Hide Code</p>
+        <pre x-ref="code4" class="hidden">
+&lt;div x-data=&quot;{ items: ['Item 1', 'Item 2', 'Item 3'] }&quot;&gt;
+  &lt;ul&gt;
+    &lt;template x-for=&quot;(item, index) in items&quot; :key=&quot;index&quot;&gt;
+      &lt;li x-text=&quot;item&quot;&gt;&lt;/li&gt;
+    &lt;/template&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+        </pre>
     </div>
 
-    <hr>
+    <!-- Example 5: Event Binding with x-on -->
+    <div class="example-box" x-data="{ count: 0 }">
+        <h2>5. Event Binding (`x-on`)</h2>
+        <p>Listen for DOM events like clicks using `x-on` and respond by updating data or calling functions.</p>
+        <button x-on:click="count++" class="bg-red-500 text-white px-2 py-1">Click Me</button>
+        <p>Click count: <strong x-text="count"></strong></p>
 
-    <!-- Class Binding and Event Listeners with x-bind and x-on -->
-    <div x-data="{ isActive: false }" class="my-4">
-        <button 
-            x-bind:class="{ 'bg-blue-500 text-white': isActive, 'bg-gray-200': !isActive }" 
-            x-on:click="isActive = !isActive" 
-            class="px-4 py-2">
-            Toggle Active
-        </button>
+        <!-- Toggle code visibility -->
+        <p @click="$refs.code5.classList.toggle('hidden')" class="code-toggle">Show/Hide Code</p>
+        <pre x-ref="code5" class="hidden">
+&lt;div x-data=&quot;{ count: 0 }&quot;&gt;
+  &lt;button x-on:click=&quot;count++&quot;&gt;Click Me&lt;/button&gt;
+  &lt;p&gt;Click count: &lt;strong x-text=&quot;count&quot;&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+        </pre>
     </div>
 
-    <hr>
-
-    <!-- Input Binding with x-model -->
-    <div x-data="{ name: '' }" class="my-4">
+    <!-- Example 6: Two-way Data Binding with x-model -->
+    <div class="example-box" x-data="{ name: '' }">
+        <h2>6. Two-way Data Binding (`x-model`)</h2>
+        <p>Use `x-model` to create two-way data binding between input fields and your Alpine.js data.</p>
         <input x-model="name" placeholder="Enter your name" class="border p-1">
-        <p x-text="'Hello ' + name"></p>
-    </div>
+        <p>Hello, <strong x-text="name"></strong>!</p>
 
-    <hr>
-
-    <!-- Transitions with x-transition -->
-    <div x-data="{ open: false }" class="my-4">
-        <button x-on:click="open = !open" class="bg-purple-500 text-white px-2 py-1">
-            Toggle Transition
-        </button>
-        <div x-show="open" x-transition:enter="fade-enter" x-transition:enter-active="fade-enter-active" x-transition:leave="fade-leave-active" class="mt-2 border p-2">
-            <p>This block appears/disappears with transitions using <strong>x-transition</strong>.</p>
-        </div>
-    </div>
-
-    <hr>
-
-    <!-- x-ref and DOM interaction -->
-    <div x-data="{ message: 'This is default' }" class="my-4">
-        <input x-ref="inputMessage" placeholder="Type something" class="border p-1">
-        <button x-on:click="$refs.inputMessage.value = message" class="bg-red-500 text-white px-2 py-1">
-            Reset Input
-        </button>
-    </div>
-
-    <hr>
-
-    <!-- Two-way binding with nested objects -->
-    <div x-data="{ user: { name: '', email: '' } }" class="my-4">
-        <input x-model="user.name" placeholder="Name" class="border p-1">
-        <input x-model="user.email" placeholder="Email" class="border p-1 mt-1">
-        <p>Name: <span x-text="user.name"></span></p>
-        <p>Email: <span x-text="user.email"></span></p>
-    </div>
-
-    <hr>
-
-    <!-- x-init for initializing data or actions -->
-    <div x-data="{ message: '' }" x-init="message = 'Initialized via x-init!'">
-        <p x-text="message"></p>
-    </div>
-
-    <hr>
-
-    <!-- x-model modifiers (debounce, number, trim) -->
-    <div x-data="{ number: '', trimmed: '', debounced: '' }" class="my-4">
-        <input x-model.number="number" placeholder="Enter a number" class="border p-1">
-        <p>Number (auto-converted): <span x-text="number"></span></p>
-
-        <input x-model.trim="trimmed" placeholder="Trim whitespace" class="border p-1 mt-1">
-        <p>Trimmed: <span x-text="trimmed"></span></p>
-
-        <input x-model.debounce.500ms="debounced" placeholder="Debounced input (500ms)" class="border p-1 mt-1">
-        <p>Debounced: <span x-text="debounced"></span></p>
+        <!-- Toggle code visibility -->
+        <p @click="$refs.code6.classList.toggle('hidden')" class="code-toggle">Show/Hide Code</p>
+        <pre x-ref="code6" class="hidden">
+&lt;div x-data=&quot;{ name: '' }&quot;&gt;
+  &lt;input x-model=&quot;name&quot; placeholder=&quot;Enter your name&quot;&gt;
+  &lt;p&gt;Hello, &lt;strong x-text=&quot;name&quot;&gt;&lt;/strong&gt;!&lt;/p&gt;
+&lt;/div&gt;
+        </pre>
     </div>
 
 </body>
